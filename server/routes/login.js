@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 router.post('/', passport.authenticate('local', {
   successRedirect: '/', // Redirect to the home page on successful authentication
   failureRedirect: '/login', // Redirect back to the sign-in page on authentication failure
-  failureFlash: true // Enable flash messages for failed authentication
+//   failureFlash: true // Enable flash messages for failed authentication
 }));
 
 module.exports = router;

@@ -71,34 +71,29 @@ app.use((req, res, next) => {
 });
 
 // Configure the local strategy for username/password authentication
+// Passport configuration
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    console.log('Authenticating user:', username);
-    // Replace this with your actual authentication logic, e.g., querying the database
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { 
-        console.error('Error during authentication:', err);
-        return done(err); 
-      }
+  { usernameField: 'email', passwordField: 'password' },
+  async (email, password, done) => {
+    try {
+      console.log('Authenticating...');
+      const user = await User.findOne({ email: email });
       if (!user) {
-        console.log('User not found:', username);
-        return done(null, false, { message: 'Incorrect username.' });
+        console.log("Incorrect email");
+        return done(null, false, { message: "Incorrect email" });
       }
-      // Compare the provided password with the hashed password stored in the database
-      user.comparePassword(password, function(err, isMatch) {
-        if (err) { 
-          console.error('Error comparing passwords:', err);
-          return done(err); 
-        }
-        if (isMatch) {
-          console.log('User authenticated:', username);
-          return done(null, user);
-        } else {
-          console.log('Incorrect password:', username);
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-      });
-    });
+      // const match = await bcrypt.compare(password, user.password);
+      // if (!match) {
+      if(password === user.password){
+        console.log("Incorrect password: " + password);
+        console.log("Correct password: " + user.password);
+        return done(null, false, { message: "Incorrect password" });
+      }
+      console.log("Authentication successful");
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
   }
 ));
 
@@ -108,13 +103,14 @@ passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  console.log('Deserializing user:', id);
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  };
 });
-
 // Middleware to check authentication
 function requireAuth(req, res, next) {
   if (req.isAuthenticated()) {
