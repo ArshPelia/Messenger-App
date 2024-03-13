@@ -126,7 +126,9 @@ function requireAuth(req, res, next) {
 }
 
 // Routes
-app.use('/login', loginRouter); // Allow access to the login route without authentication
+// Allow access to the login/signup route without authentication
+app.use('/login', loginRouter); 
+app.use('/signup', signUpRouter);
 
 // Logout route
 app.get("/log-out", (req, res, next) => {
@@ -142,13 +144,11 @@ app.get("/log-out", (req, res, next) => {
 // Apply requireAuth middleware to all other routes
 app.use(requireAuth);
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/signup', signUpRouter);
 app.use("/messageboard", messageBoardRouter);
 app.use("/chat", chatRouter);
-
-
 
 
 // Catch 404 and forward to error handler

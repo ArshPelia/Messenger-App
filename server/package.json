@@ -1,11 +1,11 @@
 {
-  "name": "server",
+  "name": "messenger",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "DEBUG=server: npm run devstart"
+    "serverstart": "DEBUG=messenger: npm run devstart"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
