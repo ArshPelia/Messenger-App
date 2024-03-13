@@ -1,30 +1,35 @@
 <%- include('./layout.ejs'); %>
 
-<main>
-    <h1><%- title %></h1>
-    <section id="chat-room">
-        <div id="message-container">
-        <ul id="messages">
-            <% messages.forEach(message => { %>
-            <li><%= message %></li>
-            <% }) %>
-        </ul>
+<main class="container">
+    <h1 class="text-center"><%- title %></h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <section id="message-container">
+                <ul id="messages" class="list-unstyled">
+                    <% messages.forEach(message => { %>
+                    <li class="message"><%= message %></li>
+                    <% }) %>
+                </ul>
+            </section>
         </div>
-    </section>
-    <section id="user-list">
-        <h2>Online Users</h2>
-        <ul id="online-users">
-        <% onlineUsers.forEach(user => { %>
-            <li><%= user %></li>
-        <% }) %>
-        </ul>
-    </section>
+
+        <div class="col-md-4">
+            <section id="user-list">
+                <h2>Online Users</h2>
+                <ul id="online-users" class="list-unstyled">
+                    <% onlineUsers.forEach(user => { %>
+                    <li class="user"><%= user %></li>
+                    <% }) %>
+                </ul>
+            </section>
+        </div>
+    </div>
 </main>
-<footer>
-    <form id="message-form" action="/send-message" method="post">
-        <input type="text" id="message-input" name="message" placeholder="Type your message...">
-        <button type="submit">Send</button>
+
+<footer class="container">
+    <form id="message-form" action="/send-message" method="post" class="row">
+        <input type="text" id="message-input" name="message" placeholder="Type your message..." class="col-md-8 form-control">
+        <button type="submit" class="col-md-4 btn btn-primary">Send</button>
     </form>
 </footer>
-<script src="/script.js"></script>
-
