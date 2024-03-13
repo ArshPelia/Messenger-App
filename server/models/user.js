@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
   
 // Virtual for User's URL
 UserSchema.virtual("url").get(function () {
-    return `/clubhouse/User/${this.id}`;
+    return `/messenger/User/${this.id}`;
 });
 
 // Hash the password before saving

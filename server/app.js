@@ -14,6 +14,7 @@ const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
 const messageBoardRouter = require("./routes/messageboard");
+const chatRouter = require("./routes/chat");
 
 // Import the User model
 const User = require('./models/user');
@@ -127,6 +128,17 @@ function requireAuth(req, res, next) {
 // Routes
 app.use('/login', loginRouter); // Allow access to the login route without authentication
 
+// Logout route
+app.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    console.log('User logged out');
+    res.redirect("/login");
+  });
+});
+
 // Apply requireAuth middleware to all other routes
 app.use(requireAuth);
 
@@ -134,6 +146,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/signup', signUpRouter);
 app.use("/messageboard", messageBoardRouter);
+app.use("/chat", chatRouter);
+
+
 
 
 // Catch 404 and forward to error handler

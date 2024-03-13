@@ -27,7 +27,7 @@ exports.index = asyncHandler(async (req, res, next) => {
     .exec();
 
   res.render("board", {
-    title: "Home",
+    title: "Message Board",
     message_count: numMessages,
     message_list: allMessages 
     // message_instance_count: numMessageInstances,

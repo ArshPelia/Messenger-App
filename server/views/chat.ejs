@@ -1,0 +1,30 @@
+<%- include('./layout.ejs'); %>
+
+<main>
+    <h1><%- title %></h1>
+    <section id="chat-room">
+        <div id="message-container">
+        <ul id="messages">
+            <% messages.forEach(message => { %>
+            <li><%= message %></li>
+            <% }) %>
+        </ul>
+        </div>
+    </section>
+    <section id="user-list">
+        <h2>Online Users</h2>
+        <ul id="online-users">
+        <% onlineUsers.forEach(user => { %>
+            <li><%= user %></li>
+        <% }) %>
+        </ul>
+    </section>
+</main>
+<footer>
+    <form id="message-form" action="/send-message" method="post">
+        <input type="text" id="message-input" name="message" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+</footer>
+<script src="/script.js"></script>
+

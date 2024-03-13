@@ -5,6 +5,7 @@
   box-sizing: border-box;
 }
 
+/* Global styles */
 body {
   font-family: Arial, sans-serif;
   background-color: #817575;
@@ -23,8 +24,10 @@ body {
 h1 {
   text-align: center;
   margin-bottom: 20px;
+  color: #fff;
 }
 
+/* Form styles */
 form {
   display: flex;
   flex-direction: column;
@@ -32,6 +35,7 @@ form {
 
 label {
   margin-bottom: 5px;
+  color: #fff;
 }
 
 input {
@@ -66,12 +70,35 @@ button:active {
   transform: translateY(1px);
 }
 
-a{
-  color: #fff;
-
+/* Chat page styles */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.sidebar-nav {
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.user-list {
+  padding: 10px;
+}
+
+.user {
+  margin-bottom: 5px;
+}
+
+/* Sidebar styles */
+.sidebar {
   margin-top: 20px;
   padding: 0;
   list-style: none;
