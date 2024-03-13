@@ -11,7 +11,7 @@
             <% message_list.forEach(message => { %>
                 <li>
                     <a href="<%= message.url %>"><%= message.title %></a>
-                    (<%= message.creator.first_name %>)
+                    (<%= message.creator.username %>)
                 </li>
             <% }); %>
         </ul>

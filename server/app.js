@@ -12,6 +12,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
+const signUpRouter = require('./routes/signup');
+const messageBoardRouter = require("./routes/messageboard");
 
 // Import the User model
 const User = require('./models/user');
@@ -130,6 +132,8 @@ app.use(requireAuth);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/signup', signUpRouter);
+app.use("/messageboard", messageBoardRouter);
 
 
 // Catch 404 and forward to error handler
