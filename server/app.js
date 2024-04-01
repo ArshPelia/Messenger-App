@@ -69,7 +69,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Log session information
 app.use((req, res, next) => {
-  console.log('Session:', req.session);
+  // console.log('Session:', req.session);
   next();
 });
 
@@ -118,6 +118,7 @@ passport.deserializeUser(async (id, done) => {
 function requireAuth(req, res, next) {
   if (req.isAuthenticated()) {
     console.log('User authenticated. Proceeding to next middleware.');
+    res.locals.currentUser = req.user;
     return next();
   } else {
     console.log('User not authenticated. Redirecting to login page.');
