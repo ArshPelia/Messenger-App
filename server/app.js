@@ -15,6 +15,7 @@ const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
 const messageBoardRouter = require("./routes/messageboard");
 const chatRouter = require("./routes/chat");
+const bcrypt = require("bcrypt");
 
 // Import the User model
 const User = require('./models/user');
@@ -37,26 +38,6 @@ async function main() {
   console.log("MongoDB connected successfully!");
 }
 
-
-// Set up session middleware
-app.use(session({
-  secret: 'your-secret-key', // Change this to a random string
-  resave: false,
-  saveUninitialized: false
-}));
-
-// Configure Passport.js for authentication
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Custom middleware to track current user
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  // console.log('Current User Saved: '+ res.locals.currentUser);
-  next();
-});
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -67,38 +48,37 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Log session information
+// Custom middleware to track current user
 app.use((req, res, next) => {
-  // console.log('Session:', req.session);
+  res.locals.currentUser = req.user;
+  // console.log('Current User Saved: '+ res.locals.currentUser);
   next();
 });
 
 // Configure the local strategy for username/password authentication
 // Passport configuration
-passport.use(new LocalStrategy(
-  { usernameField: 'email', passwordField: 'password' },
-  async (email, password, done) => {
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
     try {
-      console.log('Authenticating...');
       const user = await User.findOne({ email: email });
       if (!user) {
-        console.log("Incorrect email");
-        return done(null, false, { message: "Incorrect email" });
+        return done(null, false, { message: "Incorrect username" });
       }
-      // const match = await bcrypt.compare(password, user.password);
-      // if (!match) {
-      if(password === user.password){
-        console.log("Incorrect password: " + password);
-        console.log("Correct password: " + user.password);
+      bcrypt.compare(password, user.password, (err, res) => {
+
+        console.log('incorrect pw' + user.password)
+        if (res) {
+          return done(null, user);
+        }
+
         return done(null, false, { message: "Incorrect password" });
-      }
-      console.log("Authentication successful");
-      return done(null, user);
+      });
     } catch (err) {
       return done(err);
     }
-  }
-));
+  }),
+);
 
 // Serialize and deserialize user
 passport.serializeUser(function(user, done) {
@@ -114,6 +94,24 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   };
 });
+
+// Set up session middleware
+app.use(session({
+  secret: 'your-secret-key', // Change this to a random string
+  resave: false,
+  saveUninitialized: false
+}));
+// Configure Passport.js for authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Set locals.user
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+
 // Middleware to check authentication
 function requireAuth(req, res, next) {
   if (req.isAuthenticated()) {
@@ -133,18 +131,14 @@ app.use('/signup', signUpRouter);
 
 // Logout route
 app.get("/log-out", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    console.log('User logged out');
-    res.redirect("/login");
-  });
+  req.logout(); // Remove the callback function
+  console.log('User logged out');
+  res.redirect("/login");
 });
+
 
 // Apply requireAuth middleware to all other routes
 app.use(requireAuth);
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -10,8 +10,10 @@ router.get('/', function(req, res, next) {
   res.render('login', {  });
 });
 
+console.log('logging in')
 // POST request for user sign-in
 router.post('/', passport.authenticate('local', {
+  
   successRedirect: '/', // Redirect to the home page on successful authentication
   failureRedirect: '/login', // Redirect back to the sign-in page on authentication failure
 //   failureFlash: true // Enable flash messages for failed authentication
