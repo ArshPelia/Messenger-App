@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 
+
 const UserSchema = new mongoose.Schema({
     email: { 
         type: String, 
@@ -8,10 +9,13 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Email can't be blank"], 
         match: [/\S+@\S+\.\S+/, 'Invalid email address'], 
     },
-    username: { 
+    fname: { 
         type: String, 
-        required: true, 
-        maxLength: 100 
+        required: true,  
+    },
+    lname: { 
+        type: String, 
+        required: true,  
     },
     password: {
         type: String,
@@ -29,11 +33,6 @@ const UserSchema = new mongoose.Schema({
     } 
 });
 
-  
-// Virtual for User's URL
-UserSchema.virtual("url").get(function () {
-    return `/messenger/User/${this.id}`;
-});
 
 // Hash the password before saving
 UserSchema.pre('save', async function(next) {

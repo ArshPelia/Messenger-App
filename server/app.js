@@ -126,7 +126,6 @@ app.use('/signup', signUpRouter);
 
 // Logout route
 app.get("/log-out", (req, res, next) => {
-  req.logout(); // Remove the callback function
   console.log('User logged out');
   res.redirect("/login");
 });
