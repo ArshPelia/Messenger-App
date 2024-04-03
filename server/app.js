@@ -15,7 +15,7 @@ const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
 const messageBoardRouter = require("./routes/messageboard");
 const chatRouter = require("./routes/chat");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 
 // Import the User model
 const User = require('./models/user');
@@ -48,24 +48,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Custom middleware to track current user
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  // console.log('Current User Saved: '+ res.locals.currentUser);
-  next();
-});
-
 // Configure the local strategy for username/password authentication
 // Passport configuration
 
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
+  new LocalStrategy(async (email, password, done) => {
     try {
       const user = await User.findOne({ email: email });
       if (!user) {
+        console.log('incorrect user')
         return done(null, false, { message: "Incorrect username" });
       }
-      bcrypt.compare(password, user.password, (err, res) => {
+      bcryptjs.compare(password, user.password, (err, res) => {
 
         console.log('incorrect pw' + user.password)
         if (res) {
@@ -82,13 +76,14 @@ passport.use(
 
 // Serialize and deserialize user
 passport.serializeUser(function(user, done) {
-  console.log('Serializing user:', user.username);
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
+    console.log('Deserializing user:', user);
+
     done(null, user);
   } catch (err) {
     done(err);

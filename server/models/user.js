@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     email: { 
@@ -7,16 +7,11 @@ const UserSchema = new mongoose.Schema({
         lowercase: true, 
         required: [true, "Email can't be blank"], 
         match: [/\S+@\S+\.\S+/, 'Invalid email address'], 
-        index: true 
     },
     username: { 
         type: String, 
         required: true, 
         maxLength: 100 
-    },
-    status: { 
-        type: String, 
-        enum: ['Member', 'Non-Member'] 
     },
     password: {
         type: String,
@@ -24,6 +19,12 @@ const UserSchema = new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
+        required: true,
+        default: false
+    },
+    isMember: {
+        type: Boolean,
+        required: true,
         default: false
     } 
 });
@@ -38,9 +39,9 @@ UserSchema.virtual("url").get(function () {
 UserSchema.pre('save', async function(next) {
     try {
         // Generate a salt
-        const salt = await bcrypt.genSalt(10);
+        const salt = await bcryptjs.genSalt(10);
         // Hash the password with the salt
-        const hashedPassword = await bcrypt.hash(this.password, salt);
+        const hashedPassword = await bcryptjs.hash(this.password, salt);
         // Replace the plain text password with the hashed password
         this.password = hashedPassword;
         next();

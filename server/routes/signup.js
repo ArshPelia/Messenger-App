@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 require('../models/user');
 const mongoose = require('mongoose');
 
@@ -38,8 +38,8 @@ router.post('/', validateSignUp, async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  // Hash the password using bcrypt
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  // Hash the password using bcryptjs
+  const hashedPassword = await bcryptjs.hash(req.body.password, 10);
   console.log('Hashed password:', hashedPassword); // Add this line for logging
 
   // Create a new user object with sanitized and hashed data

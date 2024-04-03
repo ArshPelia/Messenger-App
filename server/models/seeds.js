@@ -5,6 +5,10 @@ const faker = require('faker');
 require('./user');
 require('./message');
 
+require('dotenv').config();
+
+const mongoDB = process.env.mongoDB;
+
 // Getting references to the models
 const User = mongoose.model('User');
 const Message = mongoose.model('Message');
@@ -34,7 +38,7 @@ const generateRandomMessages = (users, count) => {
 };
 
 // Connecting to MongoDB
-mongoose.connect('mongodb+srv://arshpelia1:AGVARp2qdueKu2VN@cluster0.eldknbb.mongodb.net/local_library?retryWrites=true&w=majority&appName=Clust', {
+mongoose.connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     // useFindAndModify: false,
