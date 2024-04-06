@@ -4,8 +4,6 @@ const router = express.Router();
 // Require controller modules.
 const message_controller = require("../controllers/messageController");
 
-/// BOOK ROUTES ///
-
 // GET catalog home page.
 router.get("/", message_controller.index);
 

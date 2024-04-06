@@ -1,10 +1,9 @@
-const messageform = document.querySelector(".chatbox form");
+const messageForm = document.querySelector(".chatbox form");
 const messageList = document.querySelector("#messagelist");
-const userList = document.querySelector("ul#users");
-const chatboxinput = document.querySelector(".chatbox input");
+const userList = document.querySelector("#users");
+const chatboxInput = document.querySelector(".chatbox input");
 const socket = io("http://localhost:3000");
 const currentUsername = document.currentScript.getAttribute("curUser");
-console.log(currentUsername)
 
 let users = [];
 let messages = [];
@@ -24,39 +23,40 @@ socket.on("users", function (_users) {
   updateUsers();
 });
 
-messageform.addEventListener("submit", messageSubmitHandler);
+messageForm.addEventListener("submit", messageSubmitHandler);
 
 function updateUsers() {
-  userList.textContent = "";
-  for (let i = 0; i < users.length; i++) {
-    var node = document.createElement("LI");
-    var textnode = document.createTextNode(users[i]);
-    node.appendChild(textnode);
-    userList.appendChild(node);
-  }
+  userList.innerHTML = "";
+  users.forEach(user => {
+    const li = document.createElement("li");
+    li.textContent = user;
+    userList.appendChild(li);
+  });
 }
 
 function updateMessages() {
-  messageList.textContent = "";
-  for (let i = 0; i < messages.length; i++) {
-    const show = isUser === messages[i].user ? true : false;
-    messageList.innerHTML += `<li class=${show ? "private" : ""}>
-                     <p>${messages[i].user}</p>
-                     <p>${messages[i].message}</p>
-                       </li>`;
-  }
+  messageList.innerHTML = "";
+  messages.forEach(message => {
+    const show = isUser === message.user;
+    const li = document.createElement("li");
+    li.className = show ? "private" : "";
+    li.innerHTML = `
+      <p>${message.user}</p>
+      <p>${message.message}</p>
+    `;
+    messageList.appendChild(li);
+  });
 }
 
 function messageSubmitHandler(e) {
   e.preventDefault();
-  let message = chatboxinput.value;
+  const message = chatboxInput.value;
   socket.emit("message", message);
-  chatboxinput.value = "";
+  chatboxInput.value = "";
 }
 
-function userAddHandler(user) {
-  // userName = user || `User${Math.floor(Math.random() * 1000000)}`;
-  userName = currentUsername;
+function userAddHandler() {
+  const userName = currentUsername;
   socket.emit("adduser", userName);
 }
 

@@ -22,7 +22,7 @@ exports.index = asyncHandler(async (req, res, next) => {
     ]);
 
   const allMessages = await Message.find({}, "title creator")
-    .sort({ title: 1 })
+    .sort({ timestamp: 1 })
     .populate("creator")
     .exec();
 
@@ -98,7 +98,11 @@ exports.message_create_post = [
       await message.save();
       
       // Redirect to the detail page of the created message.
-      res.redirect(message.url);
+      // res.redirect(message.url);
+
+      //redirect to index
+      res.redirect('/messageboard');
+
     } catch (error) {
       // Handle any errors that occur during message creation.
       console.error("Error creating message:", error);
