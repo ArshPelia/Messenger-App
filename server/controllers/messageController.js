@@ -8,21 +8,11 @@ const { body, validationResult} = require("express-validator");
 
 //default routing to the messageboard
 exports.index = asyncHandler(async (req, res, next) => {
-  // Get details of messages, message instances, creators and genre counts (in parallel)
-  // console.log('Curr user: '+ res.locals.currentUser)
-  
-  const [
-    numMessages,
-    // numMessageInstances,
-    // numAvailableMessageInstances,
-    ] = await Promise.all([
-      Message.countDocuments({}).exec(),
-      // MessageInstance.countDocuments({}).exec(),
-      // MessageInstance.countDocuments({ status: "Available" }).exec(),
-    ]);
+  const numMessages = await Message.countDocuments({}).exec();
 
-  const allMessages = await Message.find({}, "title creator timestamp text")
-    .sort({ timestamp: 1 })
+  const latestMessages = await Message.find({}, "title creator timestamp text")
+    .sort({ timestamp: -1 }) // Sort by timestamp in descending order
+    .limit(5) // Limit to 5 documents
     .populate("creator")
     .populate("text")
     .exec();
@@ -30,24 +20,10 @@ exports.index = asyncHandler(async (req, res, next) => {
   res.render("board", {
     title: "Message Board",
     message_count: numMessages,
-    message_list: allMessages,
+    message_list: latestMessages,
     errors: []
-    // message_instance_count: numMessageInstances,
-    // message_instance_available_count: numAvailableMessageInstances,
   });
 });
-
-
-// // Display list of all messages.
-// exports.message_list = asyncHandler(async (req, res, next) => {
-//   res.send(`NOT IMPLEMENTED: All Messages List`);
-//   // const allMessages = await Message.find({}, "title creator")
-//   // .sort({ title: 1 })
-//   // .populate("creator")
-//   // .exec();
-
-//   // res.render("message_list", { title: "Message List", message_list: allMessages });
-// });
 
 // Display detail page for a specific message.
 exports.message_detail = asyncHandler(async (req, res, next) => {
