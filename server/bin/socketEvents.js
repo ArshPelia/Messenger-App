@@ -15,6 +15,7 @@ function initializeSocket(server) {
         socket.user = username;
         users.push(username);
         io.sockets.emit("users", users);
+        console.log(`user ${socket.user} is connected`);
     
         io.to(socket.id).emit("private", {
           id: socket.id,
@@ -24,6 +25,7 @@ function initializeSocket(server) {
       });
     
       socket.on("message", message => {
+        console.log(`message from ${socket.user}: ${message}`);
         io.sockets.emit("message", {
           message,
           user: socket.user,
