@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   res.render('login', {  });
 });
 
-console.log('logging in')
+
 // POST request for user sign-in
 router.post('/', passport.authenticate('local', {
   
