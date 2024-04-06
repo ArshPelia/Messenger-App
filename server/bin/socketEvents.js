@@ -43,6 +43,8 @@ function initializeSocket(server) {
     socket.on("joinRoom", roomName => {
       socket.join(roomName); // Join the specified room
       console.log(`${socket.user} joined room "${roomName}"`);
+      var destination = '/chat';
+      io.sockets.emit('redirect', destination);
     });
 
     socket.on("disconnect", () => {

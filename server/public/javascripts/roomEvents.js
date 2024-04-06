@@ -16,14 +16,12 @@ function updateRooms(rooms) {
         a.classList.add("list-group-item", "cursor-pointer");
 
         // Add event listener to join room when clicked
-// Inside updateRooms function
         a.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent the default anchor behavior
             const roomName = event.target.textContent; // Get the room name from the anchor text
             socket.emit('joinRoom', roomName); // Emit joinRoom event to server
-            //make get request to open chat page
-            fetch(`/chat`)
         });
+
 
         roomList.appendChild(a);
     });
@@ -32,6 +30,7 @@ function updateRooms(rooms) {
 // Event listener for submitting the create room form
 createRoomForm.addEventListener('submit', e => {
     e.preventDefault();
+    console.log('create room');
     const roomName = roomNameInput.value.trim();
     if (roomName) {
         socket.emit('createRoom', roomName, () => {
@@ -52,4 +51,6 @@ socket.on('updateRooms', rooms => {
 // Initial setup
 socket.emit("getRooms");
 
-
+socket.on('redirect', function(destination) {
+    window.location.href = destination;
+});

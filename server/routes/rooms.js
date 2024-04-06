@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
   res.render('rooms', { 
     title: 'Chatrooms',
     currentUser: currentUser.fname,
+    rooms: res.locals.rooms,
   });
 });
 
