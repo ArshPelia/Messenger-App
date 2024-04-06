@@ -40,6 +40,11 @@ function initializeSocket(server) {
       console.log(`Room "${roomName}" created by ${socket.user}`);
     });
 
+    socket.on("joinRoom", roomName => {
+      socket.join(roomName); // Join the specified room
+      console.log(`${socket.user} joined room "${roomName}"`);
+    });
+
     socket.on("disconnect", () => {
       console.log(`user ${socket.user} is disconnected`);
       if (socket.user) {

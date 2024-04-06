@@ -15,6 +15,7 @@ const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
 // const messageBoardRouter = require("./routes/messageboard");
 const chatRouter = require("./routes/chat");
+const roomRouter = require("./routes/rooms");
 const bcryptjs = require("bcryptjs");
 
 // Import the User model
@@ -144,6 +145,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // app.use("/messageboard", messageBoardRouter);
 app.use("/chat", chatRouter);
+app.use("/rooms", roomRouter);
+
 
 
 // Catch 404 and forward to error handler

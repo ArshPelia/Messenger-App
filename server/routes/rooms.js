@@ -1,13 +1,21 @@
-// chat.js
 var express = require('express');
 var router = express.Router();
 
 /* GET chat page. */
 router.get('/', function(req, res, next) {
   //retrive current user set in app.js as res.locals.currentUser
-  console.log('rendering chat page');
   const currentUser = res.locals.currentUser;
-  // console.log(currentUser);
+  res.render('rooms', { 
+    title: 'Chatrooms',
+    currentUser: currentUser.fname,
+  });
+});
+
+
+router.get('/joinroom', function(req, res, next) {
+  //retrive current user set in app.js as res.locals.currentUser
+  const currentUser = res.locals.currentUser;
+  console.log(currentUser + " joined room");
 
   // Render the chat EJS template and pass the data
   res.render('chat', { 
@@ -16,7 +24,5 @@ router.get('/', function(req, res, next) {
   });
 
 });
-
-
 
 module.exports = router;

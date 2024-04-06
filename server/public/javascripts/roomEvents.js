@@ -10,16 +10,22 @@ function updateRooms(rooms) {
     roomList.innerHTML = "";
 
     localRooms.forEach(room => {
-        const li = document.createElement("li");
-        li.textContent = room;
-        li.classList.add("list-group-item", "cursor-pointer");
+        const a = document.createElement("a");
+        a.textContent = room;
+        a.href = "#"; // Set href to '#' for now, you can replace it with appropriate URL
+        a.classList.add("list-group-item", "cursor-pointer");
 
         // Add event listener to join room when clicked
-        li.addEventListener('click', () => {
-            socket.emit('joinRoom', room);
+// Inside updateRooms function
+        a.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent the default anchor behavior
+            const roomName = event.target.textContent; // Get the room name from the anchor text
+            socket.emit('joinRoom', roomName); // Emit joinRoom event to server
+            //make get request to open chat page
+            fetch(`/chat`)
         });
 
-        roomList.appendChild(li);
+        roomList.appendChild(a);
     });
 }
 
@@ -45,3 +51,5 @@ socket.on('updateRooms', rooms => {
 
 // Initial setup
 socket.emit("getRooms");
+
+
