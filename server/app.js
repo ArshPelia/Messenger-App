@@ -112,7 +112,7 @@ function requireAuth(req, res, next) {
   if (req.isAuthenticated()) {
     console.log('User authenticated. Proceeding to next middleware.');
     // console.log(req.user);
-    res.locals.currentUser = req.user;
+    // res.locals.currentUser = req.user;
     return next();
   } else {
     console.log('User not authenticated. Redirecting to login page.');
@@ -128,7 +128,12 @@ app.use('/signup', signUpRouter);
 // Logout route
 app.get("/log-out", (req, res, next) => {
   console.log('User logged out');
-  res.redirect("/login");
+  res.locals.currentUser = null;
+  //ensure re-authentication is required
+  req.session.destroy(function(err) {
+    res.redirect("/login");
+  });
+  // res.redirect("/login");
 });
 
 
