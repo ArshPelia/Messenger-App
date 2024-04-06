@@ -13,7 +13,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
-const messageBoardRouter = require("./routes/messageboard");
+// const messageBoardRouter = require("./routes/messageboard");
 const chatRouter = require("./routes/chat");
 const bcryptjs = require("bcryptjs");
 
@@ -137,7 +137,7 @@ app.use(requireAuth);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use("/messageboard", messageBoardRouter);
+// app.use("/messageboard", messageBoardRouter);
 app.use("/chat", chatRouter);
 
 

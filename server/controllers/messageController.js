@@ -29,7 +29,8 @@ exports.index = asyncHandler(async (req, res, next) => {
   res.render("board", {
     title: "Message Board",
     message_count: numMessages,
-    message_list: allMessages 
+    message_list: allMessages,
+    errors: []
     // message_instance_count: numMessageInstances,
     // message_instance_available_count: numAvailableMessageInstances,
   });
@@ -101,7 +102,7 @@ exports.message_create_post = [
       // res.redirect(message.url);
 
       //redirect to index
-      res.redirect('/messageboard');
+      res.redirect('/');
 
     } catch (error) {
       // Handle any errors that occur during message creation.

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Require controller modules.
-const message_controller = require("../controllers/messageController");
+const message_controller = require("../server/controllers/messageController");
 
 // GET catalog home page.
 router.get("/", message_controller.index);
