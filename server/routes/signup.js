@@ -16,8 +16,8 @@ router.get('/', function(req, res, next) {
 
 // Validation and sanitization middleware
 const validateSignUp = [
-  body('username').trim().isLength({ min: 1 }).escape().withMessage('username must be specified'),
-  body('lastName').trim().isLength({ min: 1 }).escape().withMessage('Last name must be specified'),
+  body('fname').trim().isLength({ min: 1 }).escape().withMessage('username must be specified'),
+  body('lname').trim().isLength({ min: 1 }).escape().withMessage('Last name must be specified'),
   body('email').isEmail().normalizeEmail().withMessage('Invalid email address'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
   // body('confirmPassword').custom((value, { req }) => {
@@ -44,10 +44,9 @@ router.post('/', validateSignUp, async (req, res) => {
 
   // Create a new user object with sanitized and hashed data
   const user = new User({
-    username: req.body.username,
-    last_name: req.body.lastName,
+    fname: req.body.fname,
+    lname: req.body.lname,
     email: req.body.email,
-    status: 'Non-Member',
     password: hashedPassword,
   });
 
