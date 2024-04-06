@@ -1,21 +1,27 @@
 <%- include('./layout.ejs'); %>
 
-<div id="container">
+<div class="container">
     <h1><%- title %></h1>
     <p>Welcome to <em>messenger</em>, a very basic Express website developed as a tutorial example on the Mozilla Developer Network.</p>
-    <ul>
-        <li><strong>Total Messages:</strong> <%= message_count %></li>
-    </ul>
-    <% if (message_list.length > 0) { %>
-        <ul>
-            <% message_list.forEach(message => { %>
-                <li>
-                    <a href="<%= message.url %>"><%= message.title %></a>
-                    (<%= message.creator.fname %>)
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p>There are no messages.</p>
-    <% } %>
+    <div class="row">
+        <div class="col">
+            <ul class="list-unstyled">
+                <li><strong>Total Messages:</strong> <%= message_count %></li>
+            </ul>
+            <% if (message_list.length > 0) { %>
+                <ul class="list-unstyled">
+                    <% message_list.forEach(message => { %>
+                        <li>
+                            <a href="<%= message.url %>"><%= message.title %></a>
+                            (<%= message.creator.fname %>)
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p>There are no messages.</p>
+            <% } %>
+        </div>
+    </div>
 </div>
+
+<%- include('./footer.ejs'); %>
