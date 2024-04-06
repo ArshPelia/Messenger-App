@@ -82,7 +82,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
-    console.log('Deserializing user:', user);
+    // console.log('Deserializing user:', user);
 
     done(null, user);
   } catch (err) {
@@ -111,6 +111,7 @@ app.use((req, res, next) => {
 function requireAuth(req, res, next) {
   if (req.isAuthenticated()) {
     console.log('User authenticated. Proceeding to next middleware.');
+    // console.log(req.user);
     res.locals.currentUser = req.user;
     return next();
   } else {

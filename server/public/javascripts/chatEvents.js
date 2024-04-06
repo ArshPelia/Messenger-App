@@ -3,6 +3,8 @@ const messageList = document.querySelector("#messagelist");
 const userList = document.querySelector("ul#users");
 const chatboxinput = document.querySelector(".chatbox input");
 const socket = io("http://localhost:3000");
+const currentUsername = document.currentScript.getAttribute("curUser");
+console.log(currentUsername)
 
 let users = [];
 let messages = [];
@@ -53,7 +55,8 @@ function messageSubmitHandler(e) {
 }
 
 function userAddHandler(user) {
-  userName = user || `User${Math.floor(Math.random() * 1000000)}`;
+  // userName = user || `User${Math.floor(Math.random() * 1000000)}`;
+  userName = currentUsername;
   socket.emit("adduser", userName);
 }
 
