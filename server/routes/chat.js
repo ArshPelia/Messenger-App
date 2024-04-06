@@ -9,7 +9,11 @@ router.get('/', function(req, res, next) {
   // console.log(currentUser);
 
   // Render the chat EJS template and pass the data
-  res.render('chat', { 
+  // res.render('chat', { 
+  //   title: 'Chat',
+  //   currentUser: currentUser.fname,
+  // });
+  res.render('rooms', { 
     title: 'Chat',
     currentUser: currentUser.fname,
   });
