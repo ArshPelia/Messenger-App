@@ -21,9 +21,10 @@ exports.index = asyncHandler(async (req, res, next) => {
       // MessageInstance.countDocuments({ status: "Available" }).exec(),
     ]);
 
-  const allMessages = await Message.find({}, "title creator")
+  const allMessages = await Message.find({}, "title creator timestamp text")
     .sort({ timestamp: 1 })
     .populate("creator")
+    .populate("text")
     .exec();
 
   res.render("board", {
