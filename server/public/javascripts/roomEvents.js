@@ -49,8 +49,16 @@ socket.on('updateRooms', rooms => {
 });
 
 // Initial setup
-socket.emit("getRooms");
+
+document.addEventListener("DOMContentLoaded", function(){
+    socket.emit("getRooms");
+});
+
 
 socket.on('redirect', function(destination) {
-    window.location.href = destination;
+// window.location.href = destination;
+
+if (destination!== window.location.href && destination!== window.location.origin) {
+    window.location.replace(destination);
+}
 });

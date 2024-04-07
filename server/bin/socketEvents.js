@@ -47,6 +47,11 @@ function initializeSocket(server) {
       io.sockets.emit('redirect', destination);
     });
 
+    socket.on("getRooms", () => {
+      io.sockets.emit("updateRooms", rooms); // Emit the updated list of rooms to all clients
+      console.log("Get Rooms called:", rooms);
+    });
+
     socket.on("disconnect", () => {
       console.log(`user ${socket.user} is disconnected`);
       if (socket.user) {
