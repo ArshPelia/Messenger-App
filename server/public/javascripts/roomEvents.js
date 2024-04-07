@@ -19,7 +19,10 @@ function updateRooms(rooms) {
         a.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent the default anchor behavior
             const roomName = event.target.textContent; // Get the room name from the anchor text
-            socket.emit('joinRoom', roomName); // Emit joinRoom event to server
+            // socket.emit('joinRoom', roomName); // Emit joinRoom event to server
+            // Add a unique identifier to the 'joinRoom' event
+            socket.emit('joinRoom', { roomName, clientId: socket.id });
+
         });
 
 

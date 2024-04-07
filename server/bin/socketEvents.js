@@ -40,11 +40,13 @@ function initializeSocket(server) {
       console.log(`Room "${roomName}" created by ${socket.user}`);
     });
 
-    socket.on("joinRoom", roomName => {
+    socket.on("joinRoom", ({ roomName, clientId }) => {
       socket.join(roomName); // Join the specified room
       console.log(`${socket.user} joined room "${roomName}"`);
       var destination = '/chat';
-      io.sockets.emit('redirect', destination);
+      // io.sockets.emit('redirect', destination);
+      // Send the redirect instruction only to the client who triggered the event
+      io.to(clientId).emit('redirect', destination);
     });
 
     socket.on("getRooms", () => {
