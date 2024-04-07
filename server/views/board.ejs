@@ -5,16 +5,16 @@
         <div class="col-md-8">
             <div class="card mb-4">
                 <div class="card-header ">
-                    Latest Posts
+                    Latest Banter
                 </div>
                 <div class="card-body">
                     <% if (message_list.length > 0) { %>
                         <% message_list.forEach(message => { %>
                             <div class="mb-4">
-                                <h2><a href="<%= message.url %>" class="text-dark"><%= message.title %></a></h2>
+                                <h4><a href="<%= message.url %>" class="text-dark"><%= message.title %></a></h4>
                                 <p class="text-muted mb-2">By <%= message.creator.fname %> <%= new Date(message.timestamp).toLocaleDateString() %> <%= new Date(message.timestamp).toLocaleTimeString() %> </p>
                                 <% if (message.text) { %>
-                                    <p><%= message.text.substring(0, 150) %>...</p>
+                                    <p><%= message.text.substring(0, 20) %>...</p>
                                 <% } else { %>
                                     <p>No text available.</p>
                                 <% } %>
@@ -23,7 +23,7 @@
                     <% } else { %>
                         <p>No posts available.</p>
                     <% } %>
-                    <a href="/posts" class="btn btn-primary">View All Posts</a>
+                    <a href="/posts" class="btn btn-primary">View All Banter</a>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled">
-                        <li><strong>Total Messages:</strong> <%= message_count %></li>
+                        <li><strong>Total Posts:</strong> <%= message_count %></li>
                         <!-- Add more statistics as needed -->
                     </ul>
                 </div>
@@ -43,7 +43,7 @@
 
             <div class="card">
                 <div class="card-header ">
-                    New Post
+                    Whats New?
                 </div>
                 <div class="card-body">
                     <form method="POST" action="/message/create">
@@ -57,10 +57,13 @@
                             <textarea id="text" class="form-control" placeholder="Enter text" name="text" required></textarea>
                         </div>
 
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">Post</button>
                     </form>
                 </div>
             </div>
+            <br>
+            <a  class="btn btn-primary" href="/rooms">Chatrooms</a>
+
         </div>
     </div>
 </div>
