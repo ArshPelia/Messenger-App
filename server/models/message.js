@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
-const MessageSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const MessageSchema = new Schema({
     title: { type: String, required: true },
-    timestamp: { type: Date, default: Date.now },
+    creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     text: { type: String, required: true },
-    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // Reference to the User who created the message
+    likes: { type: Number, default: 0 }, // New field to store likes
+    timestamp: { type: Date, default: Date.now }
 });
 
 // Virtual for author's URL

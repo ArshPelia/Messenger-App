@@ -11,6 +11,12 @@
                 <div class="card-body">
                     <p><%= message.text %></p>
                 </div>
+                <div class="card-footer">
+                    <form method="POST" action="/message/<%= message._id %>/like" class="d-inline-block">
+                        <button class="btn btn-primary" type="submit">Like</button>
+                    </form>
+                    <span class="ml-2"><%= message.likes %> likes</span>
+                </div>
             </div>
 
             <!-- Comment Form -->

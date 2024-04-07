@@ -124,6 +124,28 @@ exports.message_comment_create_post = asyncHandler(async (req, res, next) => {
   res.redirect(`/message/${req.params.id}`);
 });
 
+exports.message_like_post = asyncHandler(async (req, res, next) => {
+  const messageId = req.params.id;
+
+  try {
+      const message = await Message.findById(messageId);
+      if (!message) {
+          return res.status(404).send('Message not found');
+      }
+
+      // Increment the likes count
+      message.likes++;
+
+      // Save the updated message
+      await message.save();
+
+      res.redirect(`/message/${messageId}`);
+  } catch (error) {
+      console.error("Error liking message:", error);
+      res.status(500).send("An error occurred while liking the message");
+  }
+});
+
 
 // Display message delete form on GET.
 exports.message_delete_get = asyncHandler(async (req, res, next) => {

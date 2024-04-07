@@ -31,6 +31,7 @@ router.get("/message/:id", message_controller.message_detail);
 // Handle message comment create on POST.
 router.post("/message/:id/comment", message_controller.message_comment_create_post);
 
+router.post('/message/:id/like', message_controller.message_like_post);
 
 // /* GET home page. */
 // router.get('/', function(req, res, next) {
