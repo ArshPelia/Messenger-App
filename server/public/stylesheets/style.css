@@ -1,0 +1,109 @@
+/* Define the analogous color scheme */
+:root {
+    --mint-cream: #f1fffaff; /* Mint Cream */
+    --tea-green: #ccfccbff; /* Tea Green */
+    --celadon: #96e6b3ff; /* Celadon */
+    --fern-green: #568259ff; /* Fern Green */
+    --outer-space: #464e47ff; /* Outer Space */
+}
+
+/* Global Styles */
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--mint-cream); /* Mint Cream background */
+    color: var(--outer-space); /* Dark grey text */
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--tea-green); /* Tea Green navbar */
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+    color: #fff; /* White text for navbar links */
+    font-weight: bold; /* Bold text for emphasis */
+}
+
+/* Navbar toggler icon */
+.navbar-toggler-icon {
+    background-color: #fff; /* White color for toggler icon */
+}
+
+/* Links */
+a {
+    color: var(--outer-space); /* Celadon color for links */
+    font-weight: bold; /* Bold text for emphasis */
+}
+
+a:hover {
+    color: var(--fern-green); /* Fern Green color on hover */
+}
+
+/* Buttons */
+.btn {
+    font-weight: bold; /* Bold text for buttons */
+}
+
+/* Primary button */
+.btn-primary {
+    background-color: var(--tea-green); /* Tea Green button background */
+    border-color: var(--tea-green); /* Tea Green button border */
+    color: #13353a; /* White text for card headers */
+
+}
+
+.btn-primary:hover {
+    background-color: var(--fern-green); /* Fern Green background on hover */
+    border-color: var(--fern-green); /* Fern Green border on hover */
+}
+
+/* Secondary button */
+.btn-secondary {
+    background-color: var(--celadon); /* Celadon button background */
+    border-color: var(--celadon); /* Celadon button border */
+}
+
+.btn-secondary:hover {
+    background-color: var(--fern-green); /* Fern Green background on hover */
+    border-color: var(--fern-green); /* Fern Green border on hover */
+}
+
+/* Forms */
+.form-control {
+    border-color: var(--outer-space); /* Dark Grey border for form controls */
+}
+
+.form-control:focus {
+    border-color: var(--celadon); /* Celadon border when form control is focused */
+    box-shadow: 0 0 0 0.2rem rgba(150, 230, 179, 0.25); /* Celadon shadow when form control is focused */
+}
+
+/* Cards */
+.card {
+    border: none; /* No border for cards */
+    border-radius: 0.25rem; /* Rounded corners for cards */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Shadow for cards */
+}
+
+/* Card headers */
+.card-header {
+    background-color: var(--tea-green); /* Tea Green color for card headers */
+    color: #13353a; /* White text for card headers */
+    font-weight: bold; /* Bold text for emphasis */
+}
+
+/* Card bodies */
+.card-body {
+    color: var(--outer-space); /* Dark grey text for card bodies */
+}
+
+/* Footer */
+.footer {
+    background-color: var(--celadon); /* Celadon background for footer */
+    color: #fff; /* White text for footer */
+    padding: 20px 0; /* Padding for footer */
+    text-align: center; /* Center-align text in footer */
+}

@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <ul id="messagelist" class="list-unstyled mb-0"></ul>
                 </div>
-                <form class="card-footer bg-light">
+                <form class="card-footer ">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Type your message ..." />
                         <div class="input-group-append">
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-4 mt-md-0 mt-4">
             <div class="card activeusers">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header ">
                     Active Users
                 </div>
                 <ul id="users" class="list-group list-group-flush list-unstyled mb-0"></ul>
@@ -28,8 +28,10 @@
         </div>
     </div>
 
-    <%- include('./footer.ejs'); %>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
     <script src="../public/javascripts/chatEvents.js" curUser='<%- currentUser %>'></script>
 </main>
+
+<%- include('./footer.ejs'); %>
+
