@@ -28,6 +28,10 @@ router.post("/message/:id/update", message_controller.message_update_post);
 // GET request for one Message.
 router.get("/message/:id", message_controller.message_detail);
 
+// Handle message comment create on POST.
+router.post("/message/:id/comment", message_controller.message_comment_create_post);
+
+
 // /* GET home page. */
 // router.get('/', function(req, res, next) {
 //   res.render('index', { title: 'Home' });

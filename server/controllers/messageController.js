@@ -1,8 +1,6 @@
 const Message = require("../models/message");
-// const MessageInstance = require("../models/messageinstance");
-
+const Comment = require("../models/comment");
 const asyncHandler = require("express-async-handler");
-
 const { body, validationResult} = require("express-validator");
 
 
@@ -23,11 +21,6 @@ exports.index = asyncHandler(async (req, res, next) => {
     message_list: latestMessages,
     errors: []
   });
-});
-
-// Display detail page for a specific message.
-exports.message_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: Message detail: ${req.params.id}`);
 });
 
 // Display message create form on GET.
@@ -88,6 +81,48 @@ exports.message_create_post = [
     }
   }),
 ];
+
+
+// Display detail page for a specific message.
+exports.message_detail = asyncHandler(async (req, res, next) => {
+  const message = await Message.findById(req.params.id).populate("creator").exec();
+  if (!message) {
+    const error = new Error("Message not found");
+    error.status = 404;
+    throw error;
+  }
+
+  const comments = await Comment.find({ message: req.params.id }).populate("creator").exec();
+
+  res.render("message_detail", {
+    title: message.title,
+    message: message,
+    comments: comments,
+  });
+});
+
+exports.message_comment_create_post = asyncHandler(async (req, res, next) => {
+  // Find the message to which the comment belongs
+  const message = await Message.findById(req.params.id).exec();
+  if (!message) {
+    const error = new Error("Message not found");
+    error.status = 404;
+    throw error;
+  }
+
+  // Create the comment
+  const comment = new Comment({
+    creator: req.user._id,
+    message: message._id,
+    text: req.body.comment,
+  });
+
+  // Save the comment to the database
+  await comment.save();
+
+  // Redirect back to the message detail page
+  res.redirect(`/message/${req.params.id}`);
+});
 
 
 // Display message delete form on GET.

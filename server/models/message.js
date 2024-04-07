@@ -7,4 +7,11 @@ const MessageSchema = new mongoose.Schema({
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // Reference to the User who created the message
 });
 
+// Virtual for author's URL
+MessageSchema.virtual("url").get(function () {
+    // We don't use an arrow function as we'll need the this object
+    return `/message/${this._id}`;
+  });
+  
+
 module.exports = mongoose.model('Message', MessageSchema);
