@@ -16,6 +16,11 @@
                         <button class="btn btn-primary" type="submit">Like</button>
                     </form>
                     <span class="ml-2"><%= message.likes %> likes</span>
+                    <% if (currentUser && currentUser._id.toString() === message.creator._id.toString()) { %>
+                        <form method="POST" action="/message/<%= message._id %>/delete" class="d-inline-block ml-3">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
 

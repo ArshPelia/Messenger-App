@@ -86,6 +86,8 @@ exports.message_create_post = [
 // Display detail page for a specific message.
 exports.message_detail = asyncHandler(async (req, res, next) => {
   const message = await Message.findById(req.params.id).populate("creator").exec();
+  const currentUser = res.locals.currentUser;
+
   if (!message) {
     const error = new Error("Message not found");
     error.status = 404;
@@ -98,6 +100,7 @@ exports.message_detail = asyncHandler(async (req, res, next) => {
     title: message.title,
     message: message,
     comments: comments,
+    currentUser: currentUser
   });
 });
 
@@ -154,8 +157,39 @@ exports.message_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle message delete on POST.
 exports.message_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Message delete POST");
+  try {
+    // Retrieve the message to be deleted based on the ID from the request parameters
+    const message = await Message.findById(req.params.id).exec();
+
+    if (!message) {
+      // If the message is not found, return a 404 Not Found error
+      const err = new Error('Message not found');
+      err.status = 404;
+      throw err;
+    }
+
+    // Check if the current user is the creator of the message
+    const isCreator = req.user && message.creator.equals(req.user._id);
+
+    if (!isCreator) {
+      // If the current user is not the creator of the message, return a 403 Forbidden error
+      const err = new Error('You are not authorized to delete this message');
+      err.status = 403;
+      throw err;
+    }
+
+    // Delete the message using the Mongoose model's deleteOne method
+    await Message.deleteOne({ _id: message._id });
+
+    // Redirect to the message board or any other appropriate page
+    res.redirect('/');
+
+  } catch (error) {
+    // Pass any errors to the error handler middleware
+    next(error);
+  }
 });
+
 
 // Display message update form on GET.
 exports.message_update_get = asyncHandler(async (req, res, next) => {
